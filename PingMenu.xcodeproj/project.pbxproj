@@ -1,0 +1,290 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		12C9F8BC13E6549300739017 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 12C9F8BB13E6549300739017 /* Cocoa.framework */; };
+		12C9F8C613E6549300739017 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 12C9F8C413E6549300739017 /* InfoPlist.strings */; };
+		12C9F8C813E6549300739017 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 12C9F8C713E6549300739017 /* main.m */; };
+		12C9F8CC13E6549300739017 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 12C9F8CA13E6549300739017 /* Credits.rtf */; };
+		12C9F8CF13E6549300739017 /* PingMenuAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 12C9F8CE13E6549300739017 /* PingMenuAppDelegate.m */; };
+		12C9F8D213E6549300739017 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 12C9F8D013E6549300739017 /* MainMenu.xib */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		12C9F8B713E6549300739017 /* PingMenu.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PingMenu.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		12C9F8BB13E6549300739017 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
+		12C9F8BE13E6549300739017 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
+		12C9F8BF13E6549300739017 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		12C9F8C013E6549300739017 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		12C9F8C313E6549300739017 /* PingMenu-Info.plist */ = {isa = PBXFileReference; path = "PingMenu-Info.plist"; sourceTree = "<group>"; };
+		12C9F8C513E6549300739017 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		12C9F8C713E6549300739017 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		12C9F8C913E6549300739017 /* PingMenu-Prefix.pch */ = {isa = PBXFileReference; path = "PingMenu-Prefix.pch"; sourceTree = "<group>"; };
+		12C9F8CB13E6549300739017 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = en; path = en.lproj/Credits.rtf; sourceTree = "<group>"; };
+		12C9F8CD13E6549300739017 /* PingMenuAppDelegate.h */ = {isa = PBXFileReference; path = PingMenuAppDelegate.h; sourceTree = "<group>"; };
+		12C9F8CE13E6549300739017 /* PingMenuAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PingMenuAppDelegate.m; sourceTree = "<group>"; };
+		12C9F8D113E6549300739017 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		12C9F8B413E6549300739017 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				12C9F8BC13E6549300739017 /* Cocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		12C9F8AC13E6549200739017 = {
+			isa = PBXGroup;
+			children = (
+				12C9F8C113E6549300739017 /* PingMenu */,
+				12C9F8BA13E6549300739017 /* Frameworks */,
+				12C9F8B813E6549300739017 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		12C9F8B813E6549300739017 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				12C9F8B713E6549300739017 /* PingMenu.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		12C9F8BA13E6549300739017 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				12C9F8BB13E6549300739017 /* Cocoa.framework */,
+				12C9F8BD13E6549300739017 /* Other Frameworks */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		12C9F8BD13E6549300739017 /* Other Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				12C9F8BE13E6549300739017 /* AppKit.framework */,
+				12C9F8BF13E6549300739017 /* CoreData.framework */,
+				12C9F8C013E6549300739017 /* Foundation.framework */,
+			);
+			name = "Other Frameworks";
+			sourceTree = "<group>";
+		};
+		12C9F8C113E6549300739017 /* PingMenu */ = {
+			isa = PBXGroup;
+			children = (
+				12C9F8CD13E6549300739017 /* PingMenuAppDelegate.h */,
+				12C9F8CE13E6549300739017 /* PingMenuAppDelegate.m */,
+				12C9F8D013E6549300739017 /* MainMenu.xib */,
+				12C9F8C213E6549300739017 /* Supporting Files */,
+			);
+			path = PingMenu;
+			sourceTree = "<group>";
+		};
+		12C9F8C213E6549300739017 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				12C9F8C313E6549300739017 /* PingMenu-Info.plist */,
+				12C9F8C413E6549300739017 /* InfoPlist.strings */,
+				12C9F8C713E6549300739017 /* main.m */,
+				12C9F8C913E6549300739017 /* PingMenu-Prefix.pch */,
+				12C9F8CA13E6549300739017 /* Credits.rtf */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		12C9F8B613E6549300739017 /* PingMenu */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 12C9F8D513E6549300739017 /* Build configuration list for PBXNativeTarget "PingMenu" */;
+			buildPhases = (
+				12C9F8B313E6549300739017 /* Sources */,
+				12C9F8B413E6549300739017 /* Frameworks */,
+				12C9F8B513E6549300739017 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = PingMenu;
+			productName = PingMenu;
+			productReference = 12C9F8B713E6549300739017 /* PingMenu.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		12C9F8AE13E6549200739017 /* Project object */ = {
+			isa = PBXProject;
+			buildConfigurationList = 12C9F8B113E6549200739017 /* Build configuration list for PBXProject "PingMenu" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 12C9F8AC13E6549200739017;
+			productRefGroup = 12C9F8B813E6549300739017 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				12C9F8B613E6549300739017 /* PingMenu */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		12C9F8B513E6549300739017 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				12C9F8C613E6549300739017 /* InfoPlist.strings in Resources */,
+				12C9F8CC13E6549300739017 /* Credits.rtf in Resources */,
+				12C9F8D213E6549300739017 /* MainMenu.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		12C9F8B313E6549300739017 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				12C9F8C813E6549300739017 /* main.m in Sources */,
+				12C9F8CF13E6549300739017 /* PingMenuAppDelegate.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		12C9F8C413E6549300739017 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				12C9F8C513E6549300739017 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		12C9F8CA13E6549300739017 /* Credits.rtf */ = {
+			isa = PBXVariantGroup;
+			children = (
+				12C9F8CB13E6549300739017 /* en */,
+			);
+			name = Credits.rtf;
+			sourceTree = "<group>";
+		};
+		12C9F8D013E6549300739017 /* MainMenu.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				12C9F8D113E6549300739017 /* en */,
+			);
+			name = MainMenu.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		12C9F8D313E6549300739017 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		12C9F8D413E6549300739017 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		12C9F8D613E6549300739017 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "PingMenu/PingMenu-Prefix.pch";
+				INFOPLIST_FILE = "PingMenu/PingMenu-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		12C9F8D713E6549300739017 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "PingMenu/PingMenu-Prefix.pch";
+				INFOPLIST_FILE = "PingMenu/PingMenu-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		12C9F8B113E6549200739017 /* Build configuration list for PBXProject "PingMenu" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				12C9F8D313E6549300739017 /* Debug */,
+				12C9F8D413E6549300739017 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		12C9F8D513E6549300739017 /* Build configuration list for PBXNativeTarget "PingMenu" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				12C9F8D613E6549300739017 /* Debug */,
+				12C9F8D713E6549300739017 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 12C9F8AE13E6549200739017 /* Project object */;
+}
