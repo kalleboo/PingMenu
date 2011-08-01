@@ -13,6 +13,7 @@
 		12C9F8CC13E6549300739017 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 12C9F8CA13E6549300739017 /* Credits.rtf */; };
 		12C9F8CF13E6549300739017 /* PingMenuAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 12C9F8CE13E6549300739017 /* PingMenuAppDelegate.m */; };
 		12C9F8D213E6549300739017 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 12C9F8D013E6549300739017 /* MainMenu.xib */; };
+		12C9F8DE13E6586600739017 /* SimplePing.m in Sources */ = {isa = PBXBuildFile; fileRef = 12C9F8DD13E6586600739017 /* SimplePing.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -21,14 +22,16 @@
 		12C9F8BE13E6549300739017 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
 		12C9F8BF13E6549300739017 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		12C9F8C013E6549300739017 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
-		12C9F8C313E6549300739017 /* PingMenu-Info.plist */ = {isa = PBXFileReference; path = "PingMenu-Info.plist"; sourceTree = "<group>"; };
+		12C9F8C313E6549300739017 /* PingMenu-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "PingMenu-Info.plist"; sourceTree = "<group>"; };
 		12C9F8C513E6549300739017 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		12C9F8C713E6549300739017 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		12C9F8C913E6549300739017 /* PingMenu-Prefix.pch */ = {isa = PBXFileReference; path = "PingMenu-Prefix.pch"; sourceTree = "<group>"; };
+		12C9F8C913E6549300739017 /* PingMenu-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "PingMenu-Prefix.pch"; sourceTree = "<group>"; };
 		12C9F8CB13E6549300739017 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = en; path = en.lproj/Credits.rtf; sourceTree = "<group>"; };
-		12C9F8CD13E6549300739017 /* PingMenuAppDelegate.h */ = {isa = PBXFileReference; path = PingMenuAppDelegate.h; sourceTree = "<group>"; };
+		12C9F8CD13E6549300739017 /* PingMenuAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PingMenuAppDelegate.h; sourceTree = "<group>"; };
 		12C9F8CE13E6549300739017 /* PingMenuAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PingMenuAppDelegate.m; sourceTree = "<group>"; };
 		12C9F8D113E6549300739017 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		12C9F8DC13E6586600739017 /* SimplePing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SimplePing.h; sourceTree = "<group>"; };
+		12C9F8DD13E6586600739017 /* SimplePing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SimplePing.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -85,6 +88,8 @@
 				12C9F8CD13E6549300739017 /* PingMenuAppDelegate.h */,
 				12C9F8CE13E6549300739017 /* PingMenuAppDelegate.m */,
 				12C9F8D013E6549300739017 /* MainMenu.xib */,
+				12C9F8DC13E6586600739017 /* SimplePing.h */,
+				12C9F8DD13E6586600739017 /* SimplePing.m */,
 				12C9F8C213E6549300739017 /* Supporting Files */,
 			);
 			path = PingMenu;
@@ -164,6 +169,7 @@
 			files = (
 				12C9F8C813E6549300739017 /* main.m in Sources */,
 				12C9F8CF13E6549300739017 /* PingMenuAppDelegate.m in Sources */,
+				12C9F8DE13E6586600739017 /* SimplePing.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
