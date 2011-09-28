@@ -1,0 +1,24 @@
+h1. PingMenu README
+
+h2. tl;dr
+
+Adds a status menu to the OS X menu bar showing the current ping time to google.com
+
+!https://github.com/kalleboo/PingMenu/raw/master/screenshot.png!
+
+h2. Why did you make this
+
+Was sitting on a train tethering, the connection was going in and out, I wanted to see at a glance the status of the connection. I now use this whenever I'm on a flakey connection.
+
+h2. What does it do
+
+It sends a ping to google.com every 5 seconds:
+* If the ping failed, changes the menu text color to red
+* If the ping is taking more than 100ms longer than the last one, menu text color turns yellow
+* When the ping suceeds, change menu color to black and show the ping time.
+
+Also shows some stats if you select the menu.
+
+h2. What does it not do, but I plan to add at some point (especially if you bug me about it)
+* Configurable domain or IP instead of just hammering poor google
+* Maybe attempt DNS lookups to test the DNS server (been having issues with DNS recently)
