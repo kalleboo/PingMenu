@@ -41,7 +41,7 @@
     self.pings = [[NSMutableDictionary alloc] init];
     [pings release];
     
-    self.pinger = [SimplePing simplePingWithHostName:@"74.125.236.81"];
+    self.pinger = [SimplePing simplePingWithHostName:@"google.com"];
     pinger.delegate = self;
     
     self.theItem = [bar statusItemWithLength:NSVariableStatusItemLength];
