@@ -134,7 +134,16 @@
     self.pingTimer = [NSTimer scheduledTimerWithTimeInterval:5.0 target:self selector:@selector(sendPing) userInfo:nil repeats:YES];    
 }
 
-// If this is called, the SimplePing object has failed.  By the time this callback is 
+-(NSString*) parseError:(NSString*)errName {
+    if ([errName isEqualToString:@"nodename nor servname provided, or not known"]) {
+        return @"(dns error)";
+    } else if ([errName isEqualToString:@"No route to host"]) {
+        return @"(no route)";
+    } else {
+        return @"(failed)";
+    }
+}
+// If this is called, the SimplePing object has failed.  By the time this callback is
 // called, the object has stopped (that is, you don't need to call -stop yourself).
 
 // IMPORTANT: On the send side the packet does not include an IP header. 
@@ -143,8 +152,10 @@
 - (void)simplePing:(SimplePing *)pinger didFailWithError:(NSError *)error
 {
 //    NSLog(@"failed: %@", [self _shortErrorFromError:error]);
-    [menuLine2 setTitle:[NSString stringWithFormat:@"#%d %@", sent, [self _shortErrorFromError:error]]];
+    NSString* errName = [self _shortErrorFromError:error];
+    [menuLine2 setTitle:[NSString stringWithFormat:@"#%d %@", sent, errName]];
     errored++;
+    self.currentTitle = [self parseError:errName];
     [self updateMenuTitleWithColor:[NSColor redColor]];
 }
 
@@ -162,8 +173,14 @@
 - (void)simplePing:(SimplePing *)pinger didFailToSendPacket:(NSData *)packet error:(NSError *)error
 {
 //    NSLog(@"#%u send failed: %@", (unsigned int) OSSwapBigToHostInt16(((const ICMPHeader *) [packet bytes])->sequenceNumber), [self _shortErrorFromError:error]);
-    [menuLine2 setTitle:[NSString stringWithFormat:@"#%d %@", sent, [self _shortErrorFromError:error]]];
+    NSString* errName = [self _shortErrorFromError:error];
+    [menuLine2 setTitle:[NSString stringWithFormat:@"#%d %@", sent, errName]];
     couldntSend++;
+    
+    self.currentTitle = [self parseError:errName];
+    
+    [self.pingTimer invalidate];
+    [self updateMenuTitleWithColor:[NSColor redColor]];
 }
 
 // Called whenever the SimplePing object receives an ICMP packet that looks like 
