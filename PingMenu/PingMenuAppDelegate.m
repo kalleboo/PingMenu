@@ -179,7 +179,7 @@
     
     self.currentTitle = [self parseError:errName];
     
-    [self.pingTimer invalidate];
+    [self.slowPingTimer invalidate];
     [self updateMenuTitleWithColor:[NSColor redColor]];
 }
 
