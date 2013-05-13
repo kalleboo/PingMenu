@@ -1,5 +1,7 @@
 h1. PingMenu README
 
+Download compiled version: http://kalleboo.s3.amazonaws.com/github/PingMenu.app.zip (Not codesigned, so right-click-open on the unzipped app)
+
 h2. tl;dr
 
 Adds a status menu to the OS X menu bar showing the current ping time to google.com
