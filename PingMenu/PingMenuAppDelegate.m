@@ -251,6 +251,16 @@
     didStart = YES;
     [self sendPing];
     self.pingTimer = [NSTimer scheduledTimerWithTimeInterval:5.0 target:self selector:@selector(sendPing) userInfo:nil repeats:YES];
+
+    self.updateTimer = [NSTimer scheduledTimerWithTimeInterval:.5 target:self selector:@selector(updateMenu) userInfo:nil repeats:YES];
+    
+    /*
+     NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:
+     [self methodSignatureForSelector:@selector(updateMenu)]];
+     [invocation setTarget:self];
+     [invocation setSelector:@selector(updateMenu)];
+     [[NSRunLoop mainRunLoop] addTimer:[NSTimer timerWithTimeInterval:.5 invocation:invocation repeats:YES] forMode:NSRunLoopCommonModes];
+     */
 }
 
 -(PingEvent*) eventForSeqNr:(int)seqNr {
@@ -267,17 +277,7 @@
     [self.pings setObject:ev forKey:[NSNumber numberWithInt:seq]];
     [self.pinger sendPingWithData:nil];
     
-    [self updateMenu];
-    self.updateTimer = [NSTimer scheduledTimerWithTimeInterval:.5 target:self selector:@selector(updateMenu) userInfo:nil repeats:YES];
-    
-    /*
-     NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:
-     [self methodSignatureForSelector:@selector(updateMenu)]];
-     [invocation setTarget:self];
-     [invocation setSelector:@selector(updateMenu)];
-     [[NSRunLoop mainRunLoop] addTimer:[NSTimer timerWithTimeInterval:.5 invocation:invocation repeats:YES] forMode:NSRunLoopCommonModes];
-     */
-    
+    [self updateMenu];    
 }
 
 - (void)simplePing:(SimplePing *)myPinger didFailWithError:(NSError *)error {
