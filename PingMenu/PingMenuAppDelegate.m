@@ -7,9 +7,15 @@
 //
 
 #import "PingMenuAppDelegate.h"
+#import "PingEvent.h"
 
 #include <sys/socket.h>
 #include <netdb.h>
+
+#define PING_HOST @"google.com"
+#define COLOR_GOOD [NSColor blackColor]
+#define COLOR_SLOW [NSColor colorWithCalibratedRed:0.755 green:0.345 blue:0.000 alpha:1.000]
+#define COLOR_BAD [NSColor redColor]
 
 @implementation PingMenuAppDelegate
 @synthesize window;
@@ -17,11 +23,19 @@
 @synthesize pinger;
 @synthesize theItem;
 @synthesize pingTimer;
+@synthesize updateTimer;
 @synthesize pings;
-@synthesize menuLine1;
-@synthesize menuLine2;
 @synthesize currentTitle;
-@synthesize slowPingTimer;
+@synthesize menuRow0;
+@synthesize menuRow1;
+@synthesize menuRow2;
+@synthesize menuRow3;
+@synthesize menuRow4;
+@synthesize menuRow5;
+@synthesize menuRow6;
+@synthesize menuRow7;
+@synthesize menuRow8;
+@synthesize menuRow9;
 
 -(IBAction)quitMe:(id)sender {
     exit(0);
@@ -29,19 +43,14 @@
 
 - (void)activateStatusMenu
 {
+    didStart = NO;
     NSStatusBar *bar = [NSStatusBar systemStatusBar];
-    
-    sent = 0;
-    received = 0;
-    errored = 0;
-    couldntSend = 0;
     
     self.currentTitle = @"Ping";
     
-    self.pings = [[NSMutableDictionary alloc] init];
-    [pings release];
+    self.pings = [[[NSMutableDictionary alloc] init] autorelease];
     
-    self.pinger = [SimplePing simplePingWithHostName:@"google.com"];
+    self.pinger = [SimplePing simplePingWithHostName:PING_HOST];
     pinger.delegate = self;
     
     self.theItem = [bar statusItemWithLength:NSVariableStatusItemLength];
@@ -53,11 +62,127 @@
     [pinger start];
 }
 
-- (void)applicationDidFinishLaunching:(NSNotification *)aNotification
-{
-    // Insert code here to initialize your application
+- (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
     [self activateStatusMenu];
 }
+
+-(void)updateMenuWithError:(NSString*)errString {
+    NSAttributedString* title = [[[NSAttributedString alloc] initWithString:errString attributes:[NSDictionary dictionaryWithObject:COLOR_BAD forKey:NSForegroundColorAttributeName]] autorelease];
+    [theItem setAttributedTitle:title];
+    
+}
+
+-(void)updateMenu {
+    NSArray* keys = [[self.pings allKeys] sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
+        return [(NSNumber*)obj2 compare:(NSNumber*)obj1];
+    }];
+    
+    PingEvent* lastSuccessfulEvent = NULL;
+    PingEvent* lastFailedEvent = NULL;
+    PingEvent* lastSentEvent = NULL;
+    PingEvent* earliestSentEvent = NULL;
+    
+    NSMutableArray* removeKeys = [NSMutableArray array];
+    int n = 0;
+    for (NSNumber* seq in keys) {
+        if (n>9) {
+            [removeKeys addObject:seq];
+            continue;
+        }
+        
+        PingEvent* ev = [self.pings objectForKey:seq];
+        if (!lastSuccessfulEvent && ev.state==PingEventStateReceived)
+            lastSuccessfulEvent = ev;
+        
+        if (!lastFailedEvent && ev.state==PingEventStateSendError)
+            lastFailedEvent = ev;
+        
+        if (!lastSentEvent && ev.state==PingEventStateSent)
+            lastSentEvent = ev;
+        
+        if (!lastSuccessfulEvent && ev.state==PingEventStateSent)
+            earliestSentEvent = ev;
+        
+        NSString* time = [NSString stringWithFormat:@"%1.3fs",[ev timeSinceSent]];
+        
+        NSString* formatted = [NSString stringWithFormat:@"#%d: %@, %@",ev.sequenceNr,[ev stateName],time];
+        //NSLog(@"%@",formatted);
+        
+        switch (n) {
+            case 0:
+                self.menuRow0.title = formatted;
+                break;
+            case 1:
+                self.menuRow1.title = formatted;
+                break;
+            case 2:
+                self.menuRow2.title = formatted;
+                break;
+            case 3:
+                self.menuRow3.title = formatted;
+                break;
+            case 4:
+                self.menuRow4.title = formatted;
+                break;
+            case 5:
+                self.menuRow5.title = formatted;
+                break;
+            case 6:
+                self.menuRow6.title = formatted;
+                break;
+            case 7:
+                self.menuRow7.title = formatted;
+                break;
+            case 8:
+                self.menuRow8.title = formatted;
+                break;
+            case 9:
+                self.menuRow9.title = formatted;
+                break;
+                
+            default:
+                break;
+        }
+
+        n++;
+    }
+
+    if (lastSuccessfulEvent)
+        didStartHasSucceeded = YES;
+    
+    NSString* titleText = @"";
+    NSColor* titleColor = COLOR_GOOD;
+    
+    if (!didStartHasSucceeded) {
+        titleText = @"Ping";
+        
+    } else if (lastFailedEvent && lastSuccessfulEvent && lastFailedEvent.sequenceNr > lastSuccessfulEvent.sequenceNr) {
+        titleText = [self parseError:lastFailedEvent.resultError];
+    
+    } else if (!lastSuccessfulEvent && didStartHasSucceeded) {
+        titleText = @"(no reponse)";
+        titleColor = COLOR_BAD;
+
+    } else if ((!lastSuccessfulEvent || earliestSentEvent.sequenceNr > lastSuccessfulEvent.sequenceNr) && [earliestSentEvent timeSinceSent]>10) {
+        titleColor = COLOR_BAD;
+        titleText = @"(over 10s)";
+        
+    } else if ([lastSentEvent timeSinceSent] > [lastSuccessfulEvent timeSinceSent]+.1 && lastSentEvent.sequenceNr>lastSuccessfulEvent.sequenceNr) {
+        titleColor = COLOR_SLOW;
+        titleText = [NSString stringWithFormat:@"%1.3fs",[lastSuccessfulEvent timeSinceSent]];
+        
+    } else if (lastSuccessfulEvent) {
+        titleText = [NSString stringWithFormat:@"%1.3fs",[lastSuccessfulEvent timeSinceSent]];
+    }
+    
+    
+    NSAttributedString* title = [[[NSAttributedString alloc] initWithString:titleText attributes:[NSDictionary dictionaryWithObject:titleColor forKey:NSForegroundColorAttributeName]] autorelease];
+    [theItem setAttributedTitle:title];
+
+    [self.pings removeObjectsForKeys:removeKeys];
+}
+
+
 
 
 - (NSString *)_shortErrorFromError:(NSError *)error
@@ -104,118 +229,135 @@
     return result;
 }
 
-- (void)sendPing
-// Called to send a ping, both directly (as soon as the SimplePing object starts up) 
-// and via a timer (to continue sending pings periodically).
-{
-    [self.pinger sendPingWithData:nil];
-    self.slowPingTimer = [NSTimer scheduledTimerWithTimeInterval:lastDiff+.1 target:self selector:@selector(slowPing) userInfo:nil repeats:NO];    
-}
-
--(void)updateMenuTitleWithColor:(NSColor*)color {
-    NSAttributedString* title = [[NSAttributedString alloc] initWithString:self.currentTitle attributes:[NSDictionary dictionaryWithObject:color forKey:NSForegroundColorAttributeName]];
-    [theItem setAttributedTitle:title];
-    [title release];
-}
-
--(void)updateMenuCount {
-    [menuLine1 setTitle:[NSString stringWithFormat:@"Sent: %d / Received: %d (Outstanding: %d / Error: %d) Couldn't send: %d", sent, received, (sent-received-errored),  errored, couldntSend]];
-}
-
--(void)slowPing {
-    [self updateMenuTitleWithColor:[NSColor colorWithCalibratedRed:0.755 green:0.345 blue:0.000 alpha:1.000]];
-}
-
-// Called after the SimplePing has successfully started up.  After this callback, you 
-// can start sending pings via -sendPingWithData:
-- (void)simplePing:(SimplePing *)pinger didStartWithAddress:(NSData *)address
-{
-    [self sendPing];
-    self.pingTimer = [NSTimer scheduledTimerWithTimeInterval:5.0 target:self selector:@selector(sendPing) userInfo:nil repeats:YES];    
-}
-
 -(NSString*) parseError:(NSString*)errName {
     if ([errName isEqualToString:@"nodename nor servname provided, or not known"]) {
-        return @"(dns error)";
+        return @"(dns failure)";
     } else if ([errName isEqualToString:@"No route to host"]) {
         return @"(no route)";
     } else {
+        NSLog(@"PingMenu: Error %@",errName);
         return @"(failed)";
     }
 }
-// If this is called, the SimplePing object has failed.  By the time this callback is
-// called, the object has stopped (that is, you don't need to call -stop yourself).
 
-// IMPORTANT: On the send side the packet does not include an IP header. 
-// On the receive side, it does.  In that case, use +[SimplePing icmpInPacket:] 
-// to find the ICMP header within the packet.
-- (void)simplePing:(SimplePing *)pinger didFailWithError:(NSError *)error
-{
-//    NSLog(@"failed: %@", [self _shortErrorFromError:error]);
-    NSString* errName = [self _shortErrorFromError:error];
-    [menuLine2 setTitle:[NSString stringWithFormat:@"#%d %@", sent, errName]];
-    errored++;
-    self.currentTitle = [self parseError:errName];
-    [self updateMenuTitleWithColor:[NSColor redColor]];
+
+
+//called when simplePing is ready
+- (void)simplePing:(SimplePing *)pinger didStartWithAddress:(NSData *)address {
+    didStart = YES;
+    [self sendPing];
+    self.pingTimer = [NSTimer scheduledTimerWithTimeInterval:5.0 target:self selector:@selector(sendPing) userInfo:nil repeats:YES];
 }
 
-// Called whenever the SimplePing object has successfully sent a ping packet. 
-- (void)simplePing:(SimplePing *)pinger didSendPacket:(NSData *)packet
-{
+-(PingEvent*) eventForSeqNr:(int)seqNr {
+    return [pings objectForKey:[NSNumber numberWithInt:seqNr]];
+}
+
+//send on timer loop
+- (void)sendPing {
+    unsigned int seq = self.pinger.nextSequenceNumber;
+    PingEvent* ev = [[PingEvent alloc] init];
+    ev.state = PingEventStateUnknown;
+    ev.sequenceNr = seq;
+    ev.sentTime = [NSDate date];
+    [self.pings setObject:ev forKey:[NSNumber numberWithInt:seq]];
+    [self.pinger sendPingWithData:nil];
+    
+    [self updateMenu];
+    self.updateTimer = [NSTimer scheduledTimerWithTimeInterval:.5 target:self selector:@selector(updateMenu) userInfo:nil repeats:YES];
+    
+    /*
+     NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:
+     [self methodSignatureForSelector:@selector(updateMenu)]];
+     [invocation setTarget:self];
+     [invocation setSelector:@selector(updateMenu)];
+     [[NSRunLoop mainRunLoop] addTimer:[NSTimer timerWithTimeInterval:.5 invocation:invocation repeats:YES] forMode:NSRunLoopCommonModes];
+     */
+    
+}
+
+- (void)simplePing:(SimplePing *)pinger didFailWithError:(NSError *)error {
+    //NSLog(@"failed: %@", [self _shortErrorFromError:error]);
+    NSString* errName = [self _shortErrorFromError:error];
+    
+    [self updateMenuWithError:[self parseError:errName]];
+    
+    if (!didStart) // try again
+        [pinger start];
+}
+
+// Called whenever the SimplePing object has successfully sent a ping packet.
+- (void)simplePing:(SimplePing *)pinger didSendPacket:(NSData *)packet {
     unsigned int seq = (unsigned int) OSSwapBigToHostInt16(((const ICMPHeader *) [packet bytes])->sequenceNumber);
-//    NSLog(@"#%u sent %@", seq,[NSString stringWithFormat:@"%u",seq]);
-    [pings setObject:[NSNumber numberWithDouble:[NSDate timeIntervalSinceReferenceDate]] forKey:[NSString stringWithFormat:@"%u",seq]];
-    sent++;
-    [self updateMenuCount];
+    //NSLog(@"#%u sent %@", seq,[NSString stringWithFormat:@"%u",seq]);
+    PingEvent* ev =[self eventForSeqNr:seq];
+    if (!ev)
+        return;
+    
+    ev.state = PingEventStateSent;
+    ev.sentTime = [NSDate date];
+
+    [self updateMenu];
 }
 
 // Called whenever the SimplePing object tries and fails to send a ping packet.
-- (void)simplePing:(SimplePing *)pinger didFailToSendPacket:(NSData *)packet error:(NSError *)error
-{
-//    NSLog(@"#%u send failed: %@", (unsigned int) OSSwapBigToHostInt16(((const ICMPHeader *) [packet bytes])->sequenceNumber), [self _shortErrorFromError:error]);
-    NSString* errName = [self _shortErrorFromError:error];
-    [menuLine2 setTitle:[NSString stringWithFormat:@"#%d %@", sent, errName]];
-    couldntSend++;
+- (void)simplePing:(SimplePing *)pinger didFailToSendPacket:(NSData *)packet error:(NSError *)error {
+    unsigned int seq = (unsigned int) OSSwapBigToHostInt16([SimplePing icmpInPacket:packet]->sequenceNumber);
+    //NSLog(@"#%u send failed: %@", seq, [self _shortErrorFromError:error]);
     
-    self.currentTitle = [self parseError:errName];
+    if (seq==NSNotFound) {
+        [self simplePing:pinger didFailWithError:error];
+        return;
+    }
     
-    [self.slowPingTimer invalidate];
-    [self updateMenuTitleWithColor:[NSColor redColor]];
+    PingEvent* ev =[self eventForSeqNr:seq];
+    if (!ev)
+        return;
+
+    ev.state = PingEventStateSendError;
+    ev.returnTime = [NSDate date];
+    ev.resultError = [self _shortErrorFromError:error];
+    
+    [self updateMenu];
 }
 
 // Called whenever the SimplePing object receives an ICMP packet that looks like 
 // a response to one of our pings (that is, has a valid ICMP checksum, has 
 // an identifier that matches our identifier, and has a sequence number in 
 // the range of sequence numbers that we've sent out).
-- (void)simplePing:(SimplePing *)pinger didReceivePingResponsePacket:(NSData *)packet
-{
+- (void)simplePing:(SimplePing *)pinger didReceivePingResponsePacket:(NSData *)packet {
     unsigned int seq = (unsigned int) OSSwapBigToHostInt16([SimplePing icmpInPacket:packet]->sequenceNumber);
-    double start = [[pings objectForKey:[NSString stringWithFormat:@"%u",seq]] doubleValue];
-    [pings removeObjectForKey:[NSString stringWithFormat:@"%d",seq]];
-    double diff = [NSDate timeIntervalSinceReferenceDate]-start;
-    lastDiff = diff;
-    
-    [slowPingTimer invalidate];
-    self.currentTitle = [NSString stringWithFormat:@"%1.3fs",diff];
-    [self updateMenuTitleWithColor:[NSColor blackColor]];
+    //NSLog(@"#%u received", seq);
+    PingEvent* ev =[self eventForSeqNr:seq];
+    if (!ev)
+        return;
 
-//    NSLog(@"#%u received", seq);
-    received++;
-    [self updateMenuCount];
+    ev.state = PingEventStateReceived;
+    ev.returnTime = [NSDate date];
+
+    [self updateMenu];
 }
 
 // Called whenever the SimplePing object receives an ICMP packet that does not 
 // look like a response to one of our pings.
 - (void)simplePing:(SimplePing *)pinger didReceiveUnexpectedPacket:(NSData *)packet
 {
+    return;
     const ICMPHeader *  icmpPtr;
-    
+    NSString* msg = @"";
     icmpPtr = [SimplePing icmpInPacket:packet];
+    
+    if (icmpPtr->type==0)
+        return;
+    
     if (icmpPtr != NULL) {
-        NSLog(@"#%u unexpected ICMP type=%u, code=%u, identifier=%u", (unsigned int) OSSwapBigToHostInt16(icmpPtr->sequenceNumber), (unsigned int) icmpPtr->type, (unsigned int) icmpPtr->code, (unsigned int) OSSwapBigToHostInt16(icmpPtr->identifier) );
+        msg = [NSString stringWithFormat:@"#%u unexpected ICMP type=%u, code=%u, identifier=%u", (unsigned int) OSSwapBigToHostInt16(icmpPtr->sequenceNumber), (unsigned int) icmpPtr->type, (unsigned int) icmpPtr->code, (unsigned int) OSSwapBigToHostInt16(icmpPtr->identifier) ];
     } else {
-        NSLog(@"unexpected packet size=%zu", (size_t) [packet length]);
-    }    
+        msg = [NSString stringWithFormat:@"unexpected packet size=%zu", (size_t) [packet length]];
+    }
+
+    //NSLog(@"%@",msg);
+    [self updateMenuWithError:@"(invalid response)"];
 }
 
 

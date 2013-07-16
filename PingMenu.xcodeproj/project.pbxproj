@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1231FE9A179591A500CC0D12 /* PingEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 1231FE99179591A500CC0D12 /* PingEvent.m */; };
 		12C9F8BC13E6549300739017 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 12C9F8BB13E6549300739017 /* Cocoa.framework */; };
 		12C9F8C613E6549300739017 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 12C9F8C413E6549300739017 /* InfoPlist.strings */; };
 		12C9F8C813E6549300739017 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 12C9F8C713E6549300739017 /* main.m */; };
@@ -17,6 +18,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1231FE98179591A500CC0D12 /* PingEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PingEvent.h; sourceTree = "<group>"; };
+		1231FE99179591A500CC0D12 /* PingEvent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PingEvent.m; sourceTree = "<group>"; };
 		12C9F8B713E6549300739017 /* PingMenu.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PingMenu.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		12C9F8BB13E6549300739017 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		12C9F8BE13E6549300739017 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -91,6 +94,8 @@
 				12C9F8DC13E6586600739017 /* SimplePing.h */,
 				12C9F8DD13E6586600739017 /* SimplePing.m */,
 				12C9F8C213E6549300739017 /* Supporting Files */,
+				1231FE98179591A500CC0D12 /* PingEvent.h */,
+				1231FE99179591A500CC0D12 /* PingEvent.m */,
 			);
 			path = PingMenu;
 			sourceTree = "<group>";
@@ -170,6 +175,7 @@
 				12C9F8C813E6549300739017 /* main.m in Sources */,
 				12C9F8CF13E6549300739017 /* PingMenuAppDelegate.m in Sources */,
 				12C9F8DE13E6586600739017 /* SimplePing.m in Sources */,
+				1231FE9A179591A500CC0D12 /* PingEvent.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -289,6 +295,7 @@
 				12C9F8D713E6549300739017 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

@@ -294,8 +294,10 @@ static uint16_t in_cksum(const void *buffer, size_t bufferLen)
     result = NSNotFound;
     if ([packet length] >= (sizeof(IPHeader) + sizeof(ICMPHeader))) {
         ipPtr = (const IPHeader *) [packet bytes];
-        assert((ipPtr->versionAndHeaderLength & 0xF0) == 0x40);     // IPv4
-        assert(ipPtr->protocol == 1);                               // ICMP
+        if (!((ipPtr->versionAndHeaderLength & 0xF0) == 0x40))
+            return NSNotFound;// IPv4
+        if (!(ipPtr->protocol == 1))
+            return NSNotFound;// ICMP
         ipHeaderLength = (ipPtr->versionAndHeaderLength & 0x0F) * sizeof(uint32_t);
         if ([packet length] >= (ipHeaderLength + sizeof(ICMPHeader))) {
             result = ipHeaderLength;
