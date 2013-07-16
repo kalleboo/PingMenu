@@ -486,7 +486,7 @@ static void SocketReadCallback(CFSocketRef s, CFSocketCallBackType type, CFDataR
         rls = CFSocketCreateRunLoopSource(NULL, self->_socket, 0);
         assert(rls != NULL);
         
-        CFRunLoopAddSource(CFRunLoopGetCurrent(), rls, kCFRunLoopDefaultMode);
+        CFRunLoopAddSource(CFRunLoopGetCurrent(), rls, kCFRunLoopCommonModes);
         
         CFRelease(rls);
 
@@ -576,7 +576,7 @@ static void HostResolveCallback(CFHostRef theHost, CFHostInfoType typeInfo, cons
         
         CFHostSetClient(self->_host, HostResolveCallback, &context);
         
-        CFHostScheduleWithRunLoop(self->_host, CFRunLoopGetCurrent(), kCFRunLoopDefaultMode);
+        CFHostScheduleWithRunLoop(self->_host, CFRunLoopGetCurrent(), kCFRunLoopCommonModes);
         
         success = CFHostStartInfoResolution(self->_host, kCFHostAddresses, &streamError);
         if ( ! success ) {
@@ -590,7 +590,7 @@ static void HostResolveCallback(CFHostRef theHost, CFHostInfoType typeInfo, cons
 {
     if (self->_host != NULL) {
         CFHostSetClient(self->_host, NULL, NULL);
-        CFHostUnscheduleFromRunLoop(self->_host, CFRunLoopGetCurrent(), kCFRunLoopDefaultMode);
+        CFHostUnscheduleFromRunLoop(self->_host, CFRunLoopGetCurrent(), kCFRunLoopCommonModes);
         CFRelease(self->_host);
         self->_host = NULL;
     }
