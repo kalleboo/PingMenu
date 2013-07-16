@@ -20,6 +20,7 @@
     NSString* currentTitle;
     BOOL didStart;
     BOOL didStartHasSucceeded;
+    BOOL hasRecentError;
     NSMenuItem* menuRow0;
     NSMenuItem* menuRow1;
     NSMenuItem* menuRow2;

@@ -67,9 +67,9 @@
 }
 
 -(void)updateMenuWithError:(NSString*)errString {
+    hasRecentError = YES;
     NSAttributedString* title = [[[NSAttributedString alloc] initWithString:errString attributes:[NSDictionary dictionaryWithObject:COLOR_BAD forKey:NSForegroundColorAttributeName]] autorelease];
-    [theItem setAttributedTitle:title];
-    
+    [theItem setAttributedTitle:title];    
 }
 
 -(void)updateMenu {
@@ -143,7 +143,10 @@
             default:
                 break;
         }
-
+        
+        if (hasRecentError && n==0 && ev.state==PingEventStateReceived)
+            hasRecentError = NO;
+        
         n++;
     }
 
@@ -158,6 +161,7 @@
         
     } else if (lastFailedEvent && lastSuccessfulEvent && lastFailedEvent.sequenceNr > lastSuccessfulEvent.sequenceNr) {
         titleText = [self parseError:lastFailedEvent.resultError];
+        titleColor = COLOR_BAD;
     
     } else if (!lastSuccessfulEvent && didStartHasSucceeded) {
         titleText = @"(no reponse)";
@@ -276,7 +280,7 @@
     
 }
 
-- (void)simplePing:(SimplePing *)pinger didFailWithError:(NSError *)error {
+- (void)simplePing:(SimplePing *)myPinger didFailWithError:(NSError *)error {
     //NSLog(@"failed: %@", [self _shortErrorFromError:error]);
     NSString* errName = [self _shortErrorFromError:error];
     
@@ -301,7 +305,7 @@
 }
 
 // Called whenever the SimplePing object tries and fails to send a ping packet.
-- (void)simplePing:(SimplePing *)pinger didFailToSendPacket:(NSData *)packet error:(NSError *)error {
+- (void)simplePing:(SimplePing *)myPinger didFailToSendPacket:(NSData *)packet error:(NSError *)error {
     unsigned int seq = (unsigned int) OSSwapBigToHostInt16([SimplePing icmpInPacket:packet]->sequenceNumber);
     //NSLog(@"#%u send failed: %@", seq, [self _shortErrorFromError:error]);
     
@@ -311,8 +315,10 @@
     }
     
     PingEvent* ev =[self eventForSeqNr:seq];
-    if (!ev)
+    if (!ev) {
+        [self simplePing:pinger didFailWithError:error];
         return;
+    }
 
     ev.state = PingEventStateSendError;
     ev.returnTime = [NSDate date];
