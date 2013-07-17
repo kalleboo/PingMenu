@@ -312,7 +312,11 @@
 
 // Called whenever the SimplePing object tries and fails to send a ping packet.
 - (void)simplePing:(SimplePing *)myPinger didFailToSendPacket:(NSData *)packet error:(NSError *)error {
-    unsigned int seq = (unsigned int) OSSwapBigToHostInt16([SimplePing icmpInPacket:packet]->sequenceNumber);
+    unsigned int seq = NSNotFound;
+    
+    const struct ICMPHeader* head = [SimplePing icmpInPacket:packet];
+    if (head)
+        seq = (unsigned int) OSSwapBigToHostInt16(head->sequenceNumber);
     //NSLog(@"#%u send failed: %@", seq, [self _shortErrorFromError:error]);
     
     if (seq==NSNotFound) {
