@@ -20,7 +20,7 @@
     NSString* currentTitle;
     BOOL didStart;
     BOOL didStartHasSucceeded;
-    BOOL hasRecentError;
+    NSString* latestError;
     NSMenuItem* menuRow0;
     NSMenuItem* menuRow1;
     NSMenuItem* menuRow2;
@@ -41,6 +41,7 @@
 @property (retain,nonatomic) NSTimer* updateTimer;
 @property (retain,nonatomic) NSMutableDictionary* pings;
 @property (retain,nonatomic) NSString* currentTitle;
+@property (retain,nonatomic) NSString* latestError;
 @property (assign) IBOutlet NSMenuItem* menuRow0;
 @property (assign) IBOutlet NSMenuItem* menuRow1;
 @property (assign) IBOutlet NSMenuItem* menuRow2;

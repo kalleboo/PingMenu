@@ -25,6 +25,7 @@
 @synthesize pingTimer;
 @synthesize updateTimer;
 @synthesize pings;
+@synthesize latestError;
 @synthesize currentTitle;
 @synthesize menuRow0;
 @synthesize menuRow1;
@@ -67,7 +68,7 @@
 }
 
 -(void)updateMenuWithError:(NSString*)errString {
-    hasRecentError = YES;
+    self.latestError = errString;
     NSAttributedString* title = [[[NSAttributedString alloc] initWithString:errString attributes:[NSDictionary dictionaryWithObject:COLOR_BAD forKey:NSForegroundColorAttributeName]] autorelease];
     [theItem setAttributedTitle:title];    
 }
@@ -144,8 +145,8 @@
                 break;
         }
         
-        if (hasRecentError && n==0 && ev.state==PingEventStateReceived)
-            hasRecentError = NO;
+        if (self.latestError && n==0 && ev.state==PingEventStateReceived)
+            self.latestError = nil;
         
         n++;
     }
@@ -156,7 +157,11 @@
     NSString* titleText = @"";
     NSColor* titleColor = COLOR_GOOD;
     
-    if (!didStartHasSucceeded) {
+    if (self.latestError) {
+        titleText = self.latestError;
+        titleColor = COLOR_BAD;
+        
+    } else if (!didStartHasSucceeded) {
         titleText = @"Ping";
         
     } else if (lastFailedEvent && lastSuccessfulEvent && lastFailedEvent.sequenceNr > lastSuccessfulEvent.sequenceNr) {
