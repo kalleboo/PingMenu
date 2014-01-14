@@ -10,6 +10,7 @@
 
 @interface PreferencesWindowController : NSWindowController
 @property (assign) IBOutlet NSTextField *domain;
-- (IBAction)buttonPressed:(id)sender;
+- (IBAction)saveButtonPressed:(id)sender;
+- (IBAction)cancelButtonPressed:(id)sender;
 
 @end

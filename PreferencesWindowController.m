@@ -34,11 +34,14 @@
     // Implement this method to handle any initialization after your window controller's window has been loaded from its nib file.
 }
 
-- (IBAction)buttonPressed:(id)sender {
-    NSLog(@"%@", self.domain.stringValue);
-    
+- (IBAction)cancelButtonPressed:(id)sender {
+    [self close];
+}
+
+- (IBAction)saveButtonPressed:(id)sender {
     PingMenuAppDelegate *AppDelegate = (PingMenuAppDelegate *)[[NSApplication sharedApplication] delegate];
     AppDelegate.pingHost = self.domain.stringValue;
     [self close];
 }
+
 @end
