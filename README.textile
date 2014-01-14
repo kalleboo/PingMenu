@@ -1,6 +1,6 @@
 h1. PingMenu README
 
-Download compiled version: https://github.com/kalleboo/PingMenu/raw/master/PingMenu.app.zip (Not codesigned, so right-click-open on the unzipped app)
+Download compiled version: https://github.com/kalleboo/PingMenu/raw/master/PingMenu.app.zip
 
 h2. tl;dr
 
