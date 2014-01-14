@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1148067F18809A0100FE8318 /* PreferencesWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1148067D18809A0100FE8318 /* PreferencesWindowController.m */; };
+		1148068018809A0100FE8318 /* PreferencesWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1148067E18809A0100FE8318 /* PreferencesWindowController.xib */; };
 		1231FE9A179591A500CC0D12 /* PingEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 1231FE99179591A500CC0D12 /* PingEvent.m */; };
 		12C9F8BC13E6549300739017 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 12C9F8BB13E6549300739017 /* Cocoa.framework */; };
 		12C9F8C613E6549300739017 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 12C9F8C413E6549300739017 /* InfoPlist.strings */; };
@@ -18,6 +20,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1148067C18809A0100FE8318 /* PreferencesWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PreferencesWindowController.h; path = ../PreferencesWindowController.h; sourceTree = "<group>"; };
+		1148067D18809A0100FE8318 /* PreferencesWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PreferencesWindowController.m; path = ../PreferencesWindowController.m; sourceTree = "<group>"; };
+		1148067E18809A0100FE8318 /* PreferencesWindowController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = PreferencesWindowController.xib; path = ../PreferencesWindowController.xib; sourceTree = "<group>"; };
 		1231FE98179591A500CC0D12 /* PingEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PingEvent.h; sourceTree = "<group>"; };
 		1231FE99179591A500CC0D12 /* PingEvent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PingEvent.m; sourceTree = "<group>"; };
 		12C9F8B713E6549300739017 /* PingMenu.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PingMenu.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -88,6 +93,9 @@
 		12C9F8C113E6549300739017 /* PingMenu */ = {
 			isa = PBXGroup;
 			children = (
+				1148067C18809A0100FE8318 /* PreferencesWindowController.h */,
+				1148067D18809A0100FE8318 /* PreferencesWindowController.m */,
+				1148067E18809A0100FE8318 /* PreferencesWindowController.xib */,
 				12C9F8CD13E6549300739017 /* PingMenuAppDelegate.h */,
 				12C9F8CE13E6549300739017 /* PingMenuAppDelegate.m */,
 				12C9F8D013E6549300739017 /* MainMenu.xib */,
@@ -137,6 +145,8 @@
 /* Begin PBXProject section */
 		12C9F8AE13E6549200739017 /* Project object */ = {
 			isa = PBXProject;
+			attributes = {
+			};
 			buildConfigurationList = 12C9F8B113E6549200739017 /* Build configuration list for PBXProject "PingMenu" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
@@ -161,6 +171,7 @@
 			files = (
 				12C9F8C613E6549300739017 /* InfoPlist.strings in Resources */,
 				12C9F8CC13E6549300739017 /* Credits.rtf in Resources */,
+				1148068018809A0100FE8318 /* PreferencesWindowController.xib in Resources */,
 				12C9F8D213E6549300739017 /* MainMenu.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -174,6 +185,7 @@
 			files = (
 				12C9F8C813E6549300739017 /* main.m in Sources */,
 				12C9F8CF13E6549300739017 /* PingMenuAppDelegate.m in Sources */,
+				1148067F18809A0100FE8318 /* PreferencesWindowController.m in Sources */,
 				12C9F8DE13E6586600739017 /* SimplePing.m in Sources */,
 				1231FE9A179591A500CC0D12 /* PingEvent.m in Sources */,
 			);

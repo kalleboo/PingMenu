@@ -12,7 +12,7 @@
 #include <sys/socket.h>
 #include <netdb.h>
 
-#define PING_HOST @"google.com"
+//#define PING_HOST @"google.com"
 #define COLOR_GOOD [NSColor blackColor]
 #define COLOR_SLOW [NSColor colorWithCalibratedRed:0.755 green:0.345 blue:0.000 alpha:1.000]
 #define COLOR_BAD [NSColor redColor]
@@ -37,9 +37,32 @@
 @synthesize menuRow7;
 @synthesize menuRow8;
 @synthesize menuRow9;
+@synthesize PING_HOST=_PING_HOST;
 
 -(IBAction)quitMe:(id)sender {
     exit(0);
+}
+
+- (PreferencesWindowController *) prefWindowController {
+    if(!_prefWindowController) {
+        _prefWindowController = [[PreferencesWindowController alloc] initWithWindowNibName:@"PreferencesWindowController"];
+    }
+    
+    return _prefWindowController;
+}
+
+- (NSString *) PING_HOST {
+    if(!_PING_HOST){
+        _PING_HOST = @"google.com";
+    }
+    return _PING_HOST;
+
+}
+
+-(IBAction)openPreferences:(id)sender {
+    
+    [self.prefWindowController showWindow:self];
+    
 }
 
 - (void)activateStatusMenu
@@ -51,7 +74,7 @@
     
     self.pings = [[[NSMutableDictionary alloc] init] autorelease];
     
-    self.pinger = [SimplePing simplePingWithHostName:PING_HOST];
+    self.pinger = [SimplePing simplePingWithHostName:self.PING_HOST];
     pinger.delegate = self;
     
     self.theItem = [bar statusItemWithLength:NSVariableStatusItemLength];
@@ -65,6 +88,7 @@
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
     [self activateStatusMenu];
+    
 }
 
 -(void)updateMenuWithError:(NSString*)errString {

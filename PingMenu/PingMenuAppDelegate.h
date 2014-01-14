@@ -8,6 +8,7 @@
 
 #import <Cocoa/Cocoa.h>
 #import "SimplePing.h"
+#import "PreferencesWindowController.h"
 
 @interface PingMenuAppDelegate : NSObject <NSApplicationDelegate,SimplePingDelegate> {
     NSWindow *window;
@@ -52,7 +53,11 @@
 @property (assign) IBOutlet NSMenuItem* menuRow7;
 @property (assign) IBOutlet NSMenuItem* menuRow8;
 @property (assign) IBOutlet NSMenuItem* menuRow9;
+@property (retain) NSString* PING_HOST;
 
+
+@property (assign, nonatomic) PreferencesWindowController *prefWindowController;
 -(IBAction)quitMe:(id)sender;
+-(IBAction)openPreferences:(id)sender;
 
 @end
