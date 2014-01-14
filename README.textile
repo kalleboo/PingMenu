@@ -22,5 +22,4 @@ It sends a ping to google.com every 5 seconds:
 Also shows some stats if you select the menu.
 
 h2. What does it not do, but I plan to add at some point (especially if you bug me about it)
-* Configurable domain or IP instead of just hammering poor google
-* Maybe attempt DNS lookups to test the DNS server (been having issues with DNS recently)
+* Maybe attempt DNS lookups to test the DNS server
