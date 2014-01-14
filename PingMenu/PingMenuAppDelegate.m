@@ -12,6 +12,8 @@
 #include <sys/socket.h>
 #include <netdb.h>
 
+#define DEFAULTS_HOSTNAME @"hostName"
+
 #define COLOR_GOOD [NSColor blackColor]
 #define COLOR_SLOW [NSColor colorWithCalibratedRed:0.755 green:0.345 blue:0.000 alpha:1.000]
 #define COLOR_BAD [NSColor redColor]
@@ -36,7 +38,7 @@
 @synthesize menuRow7;
 @synthesize menuRow8;
 @synthesize menuRow9;
-@synthesize pingHost;
+@synthesize pingHost=_pingHost;
 
 -(IBAction)quitMe:(id)sender {
     exit(0);
@@ -50,18 +52,39 @@
     return _prefWindowController;
 }
 
-- (NSString *) pingHost {
-    if(!pingHost){
-        pingHost = @"google.com";
-    }
-    return pingHost;
 
+-(void)setupPinger {
+    [self.pinger stop];
+    self.pings = [[[NSMutableDictionary alloc] init] autorelease];
+    self.pinger = [SimplePing simplePingWithHostName:self.pingHost];
+    pinger.delegate = self;
+    [pinger start];
+    
+}
+
+- (NSString *) pingHost {
+    if(!_pingHost){
+        _pingHost = [[NSUserDefaults standardUserDefaults] objectForKey:DEFAULTS_HOSTNAME];
+        if (!_pingHost) {
+            _pingHost = @"google.com";
+        }
+    }
+    return _pingHost;
+    
+}
+
+-(void)setPingHost:(NSString *)pingHost {
+    if (![pingHost isEqualToString:_pingHost]) {
+        NSLog(@"changing pingHost to %@",pingHost);
+        _pingHost = pingHost;
+        [[NSUserDefaults standardUserDefaults] setObject:pingHost forKey:DEFAULTS_HOSTNAME];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+        [self setupPinger];
+    }
 }
 
 -(IBAction)openPreferences:(id)sender {
-    
     [self.prefWindowController showWindow:self];
-    
 }
 
 - (void)activateStatusMenu
@@ -71,18 +94,12 @@
     
     self.currentTitle = @"Ping";
     
-    self.pings = [[[NSMutableDictionary alloc] init] autorelease];
-    
-    self.pinger = [SimplePing simplePingWithHostName:self.pingHost];
-    pinger.delegate = self;
-    
     self.theItem = [bar statusItemWithLength:NSVariableStatusItemLength];
-    
     [theItem setTitle: NSLocalizedString(@"Ping",@"")];
     [theItem setHighlightMode:YES];
     [theItem setMenu:theMenu];
 
-    [pinger start];
+    [self setupPinger];
 }
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
