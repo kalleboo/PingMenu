@@ -12,7 +12,6 @@
 #include <sys/socket.h>
 #include <netdb.h>
 
-//#define PING_HOST @"google.com"
 #define COLOR_GOOD [NSColor blackColor]
 #define COLOR_SLOW [NSColor colorWithCalibratedRed:0.755 green:0.345 blue:0.000 alpha:1.000]
 #define COLOR_BAD [NSColor redColor]
@@ -37,7 +36,7 @@
 @synthesize menuRow7;
 @synthesize menuRow8;
 @synthesize menuRow9;
-@synthesize PING_HOST=_PING_HOST;
+@synthesize pingHost;
 
 -(IBAction)quitMe:(id)sender {
     exit(0);
@@ -51,11 +50,11 @@
     return _prefWindowController;
 }
 
-- (NSString *) PING_HOST {
-    if(!_PING_HOST){
-        _PING_HOST = @"google.com";
+- (NSString *) pingHost {
+    if(!pingHost){
+        pingHost = @"google.com";
     }
-    return _PING_HOST;
+    return pingHost;
 
 }
 
@@ -74,7 +73,7 @@
     
     self.pings = [[[NSMutableDictionary alloc] init] autorelease];
     
-    self.pinger = [SimplePing simplePingWithHostName:self.PING_HOST];
+    self.pinger = [SimplePing simplePingWithHostName:self.pingHost];
     pinger.delegate = self;
     
     self.theItem = [bar statusItemWithLength:NSVariableStatusItemLength];
@@ -344,11 +343,10 @@
     unsigned int seq = NSNotFound;
     
     const struct ICMPHeader* head = [SimplePing icmpInPacket:packet];
-    if (head)
+    if (head) {
         seq = (unsigned int) OSSwapBigToHostInt16(head->sequenceNumber);
-    //NSLog(@"#%u send failed: %@", seq, [self _shortErrorFromError:error]);
-    
-    if (seq==NSNotFound) {
+        
+    } else {
         [self simplePing:pinger didFailWithError:error];
         return;
     }

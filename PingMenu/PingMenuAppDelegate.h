@@ -53,7 +53,7 @@
 @property (assign) IBOutlet NSMenuItem* menuRow7;
 @property (assign) IBOutlet NSMenuItem* menuRow8;
 @property (assign) IBOutlet NSMenuItem* menuRow9;
-@property (retain) NSString* PING_HOST;
+@property (retain,nonatomic) NSString* pingHost;
 
 
 @property (assign, nonatomic) PreferencesWindowController *prefWindowController;

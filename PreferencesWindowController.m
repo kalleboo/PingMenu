@@ -29,7 +29,7 @@
     [super windowDidLoad];
     
     PingMenuAppDelegate *AppDelegate = (PingMenuAppDelegate *)[[NSApplication sharedApplication] delegate];
-    self.domain.stringValue = AppDelegate.PING_HOST;
+    self.domain.stringValue = AppDelegate.pingHost;
     
     // Implement this method to handle any initialization after your window controller's window has been loaded from its nib file.
 }
@@ -38,7 +38,7 @@
     NSLog(@"%@", self.domain.stringValue);
     
     PingMenuAppDelegate *AppDelegate = (PingMenuAppDelegate *)[[NSApplication sharedApplication] delegate];
-    AppDelegate.PING_HOST = self.domain.stringValue;
-    self.close;
+    AppDelegate.pingHost = self.domain.stringValue;
+    [self close];
 }
 @end
