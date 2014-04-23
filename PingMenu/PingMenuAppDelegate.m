@@ -52,9 +52,23 @@
     return _prefWindowController;
 }
 
+-(void)resetMenu {
+    NSString* formatted = @"Ping";
+    self.menuRow0.title = formatted;
+    self.menuRow1.title = formatted;
+    self.menuRow2.title = formatted;
+    self.menuRow3.title = formatted;
+    self.menuRow4.title = formatted;
+    self.menuRow5.title = formatted;
+    self.menuRow6.title = formatted;
+    self.menuRow7.title = formatted;
+    self.menuRow8.title = formatted;
+    self.menuRow9.title = formatted;
+}
 
 -(void)setupPinger {
     [self.pinger stop];
+    [self resetMenu];
     self.pings = [[[NSMutableDictionary alloc] init] autorelease];
     self.pinger = [SimplePing simplePingWithHostName:self.pingHost];
     pinger.delegate = self;
@@ -75,7 +89,6 @@
 
 -(void)setPingHost:(NSString *)pingHost {
     if (![pingHost isEqualToString:_pingHost]) {
-        NSLog(@"changing pingHost to %@",pingHost);
         _pingHost = pingHost;
         [[NSUserDefaults standardUserDefaults] setObject:pingHost forKey:DEFAULTS_HOSTNAME];
         [[NSUserDefaults standardUserDefaults] synchronize];
@@ -293,6 +306,11 @@
 
 //called when simplePing is ready
 - (void)simplePing:(SimplePing *)pinger didStartWithAddress:(NSData *)address {
+    if (didStart) {
+        [self sendPing];
+        return;
+    }
+    
     didStart = YES;
     [self sendPing];
 
@@ -328,7 +346,11 @@
     [self.pings setObject:ev forKey:[NSNumber numberWithInt:seq]];
     [self.pinger sendPingWithData:nil];
     
-    [self updateMenu];    
+    [self updateMenu];
+    
+    if (seq >= 65533) { //we're hitting int_max, restart it
+        [self setupPinger];
+    }
 }
 
 - (void)simplePing:(SimplePing *)myPinger didFailWithError:(NSError *)error {
