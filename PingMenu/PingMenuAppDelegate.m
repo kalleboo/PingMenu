@@ -71,6 +71,7 @@
     [self resetMenu];
     self.pings = [[[NSMutableDictionary alloc] init] autorelease];
     self.pinger = [SimplePing simplePingWithHostName:self.pingHost];
+    self.lastSeen = [NSDate date];
     pinger.delegate = self;
     [pinger start];
     
@@ -222,9 +223,25 @@
         titleColor = COLOR_BAD;
     
     } else if (!lastSuccessfulEvent && didStartHasSucceeded) {
-        titleText = @"(no reponse)";
+        if (self.lastSeen) {
+            NSTimeInterval since = [NSDate timeIntervalSinceReferenceDate]-[self.lastSeen timeIntervalSinceReferenceDate];
+            
+            if (since>120) {
+                titleText = [NSString stringWithFormat:@"(no response in %.0fm)",floor(since/60)];
+            } else {
+                titleText = [NSString stringWithFormat:@"(no response in %.0fs)",floor(since)];
+            }
+        } else {
+            titleText = @"(no reponse)";
+        }
+        
         titleColor = COLOR_BAD;
 
+        /*
+    } else if (!lastSuccessfulEvent && didStartHasSucceeded) {
+        titleColor = COLOR_BAD;
+        titleText = @"(no response)";
+         */
     } else if ((!lastSuccessfulEvent || earliestSentEvent.sequenceNr > lastSuccessfulEvent.sequenceNr) && [earliestSentEvent timeSinceSent]>10) {
         titleColor = COLOR_BAD;
         titleText = @"(over 10s)";
@@ -416,6 +433,7 @@
 
     ev.state = PingEventStateReceived;
     ev.returnTime = [NSDate date];
+    self.lastSeen = [NSDate date];
 
     [self updateMenu];
 }

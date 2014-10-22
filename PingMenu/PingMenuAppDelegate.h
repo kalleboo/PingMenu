@@ -54,6 +54,7 @@
 @property (assign) IBOutlet NSMenuItem* menuRow8;
 @property (assign) IBOutlet NSMenuItem* menuRow9;
 @property (retain,nonatomic) NSString* pingHost;
+@property (retain,nonatomic) NSDate* lastSeen;
 
 
 @property (assign, nonatomic) PreferencesWindowController *prefWindowController;
