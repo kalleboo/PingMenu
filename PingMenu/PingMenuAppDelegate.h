@@ -32,6 +32,7 @@
     NSMenuItem* menuRow7;
     NSMenuItem* menuRow8;
     NSMenuItem* menuRow9;
+    BOOL darkModeOn;
 }
 
 @property (assign) IBOutlet NSWindow *window;

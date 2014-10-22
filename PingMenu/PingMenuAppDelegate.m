@@ -14,7 +14,6 @@
 
 #define DEFAULTS_HOSTNAME @"hostName"
 
-#define COLOR_GOOD [NSColor blackColor]
 #define COLOR_SLOW [NSColor colorWithCalibratedRed:0.755 green:0.345 blue:0.000 alpha:1.000]
 #define COLOR_BAD [NSColor redColor]
 
@@ -50,6 +49,17 @@
     }
     
     return _prefWindowController;
+}
+
+-(BOOL)isDarkModeOn {
+    //http://stackoverflow.com/questions/25379525/how-to-detect-dark-mode-in-yosemite-to-change-the-status-bar-menu-icon
+    NSDictionary *dict = [[NSUserDefaults standardUserDefaults] persistentDomainForName:NSGlobalDomain];
+    id style = [dict objectForKey:@"AppleInterfaceStyle"];
+    return ( style && [style isKindOfClass:[NSString class]] && NSOrderedSame == [style caseInsensitiveCompare:@"dark"] );
+}
+
+-(NSColor*)colorForGoodStatus {
+    return darkModeOn?[NSColor whiteColor]:[NSColor blackColor];
 }
 
 -(void)resetMenu {
@@ -116,9 +126,15 @@
     [self setupPinger];
 }
 
+- (void)darkModeChanged:(id)notification {
+    darkModeOn = [self isDarkModeOn];
+}
+
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
-    [self activateStatusMenu];
+    darkModeOn = [self isDarkModeOn];
+    [[NSDistributedNotificationCenter defaultCenter] addObserver:self selector:@selector(darkModeChanged:) name:@"AppleInterfaceThemeChangedNotification" object:nil];
     
+    [self activateStatusMenu];
 }
 
 -(void)updateMenuWithError:(NSString*)errString {
@@ -209,7 +225,7 @@
         didStartHasSucceeded = YES;
     
     NSString* titleText = @"";
-    NSColor* titleColor = COLOR_GOOD;
+    NSColor* titleColor = [self colorForGoodStatus];
     
     if (self.latestError) {
         titleText = self.latestError;
