@@ -40,7 +40,7 @@
 
 - (IBAction)saveButtonPressed:(id)sender {
     PingMenuAppDelegate *AppDelegate = (PingMenuAppDelegate *)[[NSApplication sharedApplication] delegate];
-    AppDelegate.pingHost = self.domain.stringValue;
+    AppDelegate.pingHost = [self.domain.stringValue stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
     [self close];
 }
 
