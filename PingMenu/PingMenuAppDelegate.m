@@ -119,8 +119,8 @@
     self.currentTitle = @"Ping";
     
     self.theItem = [bar statusItemWithLength:NSVariableStatusItemLength];
-    [theItem setTitle: NSLocalizedString(@"Ping",@"")];
-    [theItem setHighlightMode:YES];
+    [theItem.button setTitle: NSLocalizedString(@"Ping",@"")];
+    [theItem.button.cell setHighlightsBy:YES];
     [theItem setMenu:theMenu];
 
     [self setupPinger];
@@ -140,7 +140,7 @@
 -(void)updateMenuWithError:(NSString*)errString {
     self.latestError = errString;
     NSAttributedString* title = [[[NSAttributedString alloc] initWithString:errString attributes:[NSDictionary dictionaryWithObject:COLOR_BAD forKey:NSForegroundColorAttributeName]] autorelease];
-    [theItem setAttributedTitle:title];    
+    [theItem.button setAttributedTitle:title];
 }
 
 -(void)updateMenu {
@@ -272,7 +272,7 @@
     
     
     NSAttributedString* title = [[[NSAttributedString alloc] initWithString:titleText attributes:[NSDictionary dictionaryWithObject:titleColor forKey:NSForegroundColorAttributeName]] autorelease];
-    [theItem setAttributedTitle:title];
+    [theItem.button setAttributedTitle:title];
 
     [self.pings removeObjectsForKeys:removeKeys];
 }
@@ -365,8 +365,8 @@
     [[NSRunLoop mainRunLoop] addTimer:[NSTimer timerWithTimeInterval:.5 invocation:invocation repeats:YES] forMode:NSRunLoopCommonModes];
 }
 
--(PingEvent*) eventForSeqNr:(int)seqNr {
-    return [pings objectForKey:[NSNumber numberWithInt:seqNr]];
+-(PingEvent*) eventForSeqNr:(long)seqNr {
+    return [pings objectForKey:[NSNumber numberWithLong:seqNr]];
 }
 
 //send on timer loop
@@ -412,7 +412,7 @@
 
 // Called whenever the SimplePing object tries and fails to send a ping packet.
 - (void)simplePing:(SimplePing *)myPinger didFailToSendPacket:(NSData *)packet error:(NSError *)error {
-    unsigned int seq = NSNotFound;
+    unsigned long seq = NSNotFound;
     
     const struct ICMPHeader* head = [SimplePing icmpInPacket:packet];
     if (head) {
