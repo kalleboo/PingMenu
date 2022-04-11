@@ -80,7 +80,7 @@
     [self.pinger stop];
     [self resetMenu];
     self.pings = [[[NSMutableDictionary alloc] init] autorelease];
-    self.pinger = [SimplePing simplePingWithHostName:self.pingHost];
+    self.pinger = [[SimplePing alloc] initWithHostName:self.pingHost];
     self.lastSeen = [NSDate date];
     pinger.delegate = self;
     [pinger start];
@@ -411,19 +411,9 @@
 }
 
 // Called whenever the SimplePing object tries and fails to send a ping packet.
-- (void)simplePing:(SimplePing *)myPinger didFailToSendPacket:(NSData *)packet error:(NSError *)error {
-    unsigned long seq = NSNotFound;
-    
-    const struct ICMPHeader* head = [SimplePing icmpInPacket:packet];
-    if (head) {
-        seq = (unsigned int) OSSwapBigToHostInt16(head->sequenceNumber);
-        
-    } else {
-        [self simplePing:pinger didFailWithError:error];
-        return;
-    }
-    
-    PingEvent* ev =[self eventForSeqNr:seq];
+- (void)simplePing:(SimplePing *)pinger didFailToSendPacket:(NSData *)packet sequenceNumber:(uint16_t)sequenceNumber error:(NSError *)error {
+
+    PingEvent* ev =[self eventForSeqNr:sequenceNumber];
     if (!ev) {
         [self simplePing:pinger didFailWithError:error];
         return;
@@ -440,10 +430,9 @@
 // a response to one of our pings (that is, has a valid ICMP checksum, has 
 // an identifier that matches our identifier, and has a sequence number in 
 // the range of sequence numbers that we've sent out).
-- (void)simplePing:(SimplePing *)pinger didReceivePingResponsePacket:(NSData *)packet {
-    unsigned int seq = (unsigned int) OSSwapBigToHostInt16([SimplePing icmpInPacket:packet]->sequenceNumber);
-    //NSLog(@"#%u received", seq);
-    PingEvent* ev =[self eventForSeqNr:seq];
+- (void)simplePing:(SimplePing *)pinger didReceivePingResponsePacket:(NSData *)packet sequenceNumber:(uint16_t)sequenceNumber {
+
+    PingEvent* ev =[self eventForSeqNr:sequenceNumber];
     if (!ev)
         return;
 
@@ -458,22 +447,8 @@
 // look like a response to one of our pings.
 - (void)simplePing:(SimplePing *)pinger didReceiveUnexpectedPacket:(NSData *)packet
 {
-    return;
-    const ICMPHeader *  icmpPtr;
-    NSString* msg = @"";
-    icmpPtr = [SimplePing icmpInPacket:packet];
-    
-    if (icmpPtr->type==0)
-        return;
-    
-    if (icmpPtr != NULL) {
-        msg = [NSString stringWithFormat:@"#%u unexpected ICMP type=%u, code=%u, identifier=%u", (unsigned int) OSSwapBigToHostInt16(icmpPtr->sequenceNumber), (unsigned int) icmpPtr->type, (unsigned int) icmpPtr->code, (unsigned int) OSSwapBigToHostInt16(icmpPtr->identifier) ];
-    } else {
-        msg = [NSString stringWithFormat:@"unexpected packet size=%zu", (size_t) [packet length]];
-    }
-
-    //NSLog(@"%@",msg);
-    [self updateMenuWithError:@"(invalid response)"];
+    // This is too noisy
+    //[self updateMenuWithError:@"(invalid response)"];
 }
 
 
